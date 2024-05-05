@@ -6,11 +6,12 @@ import {
   Patch,
   Param,
   Delete,
-  ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -27,9 +28,10 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.findOne(id);
+  @UseGuards(AuthGuard)
+  @Get(':username')
+  findOne(@Param('username') username: string) {
+    return this.usersService.findOne(username);
   }
 
   @Patch(':id')
