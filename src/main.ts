@@ -4,7 +4,7 @@ import { logger } from './logger/logger.middleware';
 import { HttpExceptionFilter } from './error/error';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { abortOnError: false });
   app.use(logger);
   app.useGlobalFilters(new HttpExceptionFilter());
   await app.listen(3000);
